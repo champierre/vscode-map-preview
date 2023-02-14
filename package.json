@@ -253,6 +253,14 @@
                         {
                             "xColumn": "easting",
                             "yColumn": "northing"
+                        },
+                        {
+                            "xColumn": "経度",
+                            "yColumn": "緯度"
+                        },
+                        {
+                            "xColumn": "経度（10進法）",
+                            "yColumn": "緯度（10進法）"
                         }
                     ],
                     "description": "A list of case-insensitive column name pairs to look for X/Y coordinates when attempting to preview a given CSV file"

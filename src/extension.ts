@@ -114,7 +114,9 @@ class PreviewDocumentContentProvider implements vscode.TextDocumentContentProvid
                 img-src ${this._wctx.getCspSource()} data: https:;
                 style-src 'unsafe-inline' ${this._wctx.getCspSource()};
                 style-src-elem 'unsafe-inline' ${this._wctx.getCspSource()};
-                script-src 'nonce-${this._wctx.getScriptNonce()}' ${this._wctx.getCspSource()};" />
+                script-src 'nonce-${this._wctx.getScriptNonce()}' https://cdn.geolonia.com;
+                connect-src 'nonce-${this._wctx.getScriptNonce()}' https://*.geolonia.com;
+                worker-src blob:;" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Map Preview</title>
     </head>
@@ -178,7 +180,7 @@ class PreviewDocumentContentProvider implements vscode.TextDocumentContentProvid
         const text = this.cleanText(doc.getText());
         const config = vscode.workspace.getConfiguration("map.preview");
         return `<body>
-            <div id="map" style="width: 100%; height: 100%">
+            <div id="map" class="geolonia" style="width: 100%; height: 100%">
                 <div id="format" style="position: absolute; left: 40; top: 5; z-index: 100; padding: 5px; background: yellow; color: black"></div>
             </div>` +
             this.createLocalSource("purify.min.js", SourceType.SCRIPT) +
@@ -213,12 +215,14 @@ class PreviewDocumentContentProvider implements vscode.TextDocumentContentProvid
                     }
                     createPreviewSource(content, formatOptions, previewConfig, function (preview) {
                         document.getElementById("format").innerHTML = "Format: " + preview.driver;
-                        initPreviewMap('map', preview, previewConfig);
+                        console.log(content)
+                        //initPreviewMap('map', preview, previewConfig);
                     });
                 } catch (e) {
                     setError(e);
                 }
             </script>
+            <script nonce="${this._wctx.getScriptNonce()}" type="text/javascript" src="https://cdn.geolonia.com/v1/embed?geolonia-api-key=8587a47180854a999e4ec5fd25b175ba"></script>
         </body>`;
     }
 }
